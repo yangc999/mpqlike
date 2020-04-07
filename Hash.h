@@ -1,5 +1,5 @@
-#ifndef __HASH_H__
-#define __HASH_H__
+#ifndef __PKG_HASH_H__
+#define __PKG_HASH_H__
 
 namespace pkg
 {

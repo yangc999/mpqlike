@@ -1,5 +1,5 @@
-#ifndef __FILE_STREAM_H__
-#define __FILE_STREAM_H__
+#ifndef __PKG_FILE_STREAM_H__
+#define __PKG_FILE_STREAM_H__
 
 #include <fstream>
 #include <iostream>

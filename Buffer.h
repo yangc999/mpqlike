@@ -1,8 +1,5 @@
-#ifndef __BUFFER_H__
-#define __BUFFER_H__
-
-#include <cstdlib>
-#include <cstring>
+#ifndef __PKG_BUFFER_H__
+#define __PKG_BUFFER_H__
 
 namespace pkg
 {

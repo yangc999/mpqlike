@@ -1,5 +1,5 @@
-#ifndef __FILE_SYSTEM_H__
-#define __FILE_SYSTEM_H__
+#ifndef __PKG_FILE_SYSTEM_H__
+#define __PKG_FILE_SYSTEM_H__
 
 #include <vector>
 #include <unordered_map>

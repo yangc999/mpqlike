@@ -1,11 +1,10 @@
-#ifndef __FIlE_FORMAT_H__
-#define __FIlE_FORMAT_H__
+#ifndef __PKG_FIlE_FORMAT_H__
+#define __PKG_FIlE_FORMAT_H__
 
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <map>
 #include <exception>
-#include "Hash.h"
 #include "Buffer.h"
 
 namespace pkg
@@ -21,7 +20,7 @@ class FileFormat
 {
 private:
     std::string _path;
-    std::unordered_map<unsigned int, unsigned int> hashTable;
+    std::map<unsigned int, unsigned int> hashTable;
     std::vector<blockInfo*> blockTable;
 public:
     FileFormat(const char* path);

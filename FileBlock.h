@@ -1,7 +1,6 @@
-#ifndef __FILE_BLOCK_H__
-#define __FILE_BLOCK_H__
+#ifndef __PKG_FILE_BLOCK_H__
+#define __PKG_FILE_BLOCK_H__
 
-#include <cstring>
 #include "Buffer.h"
 
 namespace pkg
@@ -23,7 +22,8 @@ class FileBlock
 {
 private:
     fileInfo flInf;
-    unsigned char* content;
+    unsigned char* _content;
+    size_t _size;
 public:
     FileBlock(Buffer& buf);
     ~FileBlock();

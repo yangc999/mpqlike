@@ -1,7 +1,9 @@
 
+#include <cstring>
 #include "FileFormat.h"
 #include "FileStream.h"
 #include "FileBlock.h"
+#include "Hash.h"
 
 using namespace pkg;
 
@@ -48,7 +50,8 @@ FileFormat::FileFormat(const char* path):_path(path)
         if (!fs.readUInt32(&blockLen) || blockLen <= 0)
             throw "block len failed";
         blockInfo* blkInfo = (blockInfo*)malloc(sizeof(blockInfo));
-        blockTable.push_back(blkInfo);  
+        if (blkInfo != nullptr)
+            blockTable.push_back(blkInfo);  
     }    
 }
 
