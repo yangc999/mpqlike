@@ -2,7 +2,7 @@
 #define __FILE_SYSTEM_H__
 
 #include <vector>
-#include <hash_map>
+#include <unordered_map>
 #include "FileFormat.h"
 #include "Buffer.h"
 
@@ -12,7 +12,7 @@ namespace pkg
 class FileSystem
 {
 private:
-    __gnu_cxx::hash_map<const char*, FileFormat*> pkgMap;
+    std::unordered_map<std::string, FileFormat*> pkgMap;
     FileSystem();
 public:
     ~FileSystem();

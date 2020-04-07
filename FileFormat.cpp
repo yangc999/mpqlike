@@ -67,7 +67,7 @@ const char* FileFormat::origin()
 
 bool FileFormat::match(const char* path)
 {
-    int hashValue = (int)path;
+    unsigned int hashValue = Hash(path);
     if (hashTable.find(hashValue) != hashTable.end())
         return true;
     return false;
@@ -75,7 +75,7 @@ bool FileFormat::match(const char* path)
 
 bool FileFormat::read(const char* path, Buffer& buf)
 {
-    int hashValue = (int)path;
+    unsigned int hashValue = Hash(path);
     if (hashTable.find(hashValue) != hashTable.end())
     {
         blockInfo* blkInf = blockTable[hashTable[hashValue]];

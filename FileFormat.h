@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <hash_map>
+#include <unordered_map>
 #include <exception>
 #include "Hash.h"
 #include "Buffer.h"
@@ -21,7 +21,7 @@ class FileFormat
 {
 private:
     std::string _path;
-    __gnu_cxx::hash_map<unsigned int, unsigned int> hashTable;
+    std::unordered_map<unsigned int, unsigned int> hashTable;
     std::vector<blockInfo*> blockTable;
 public:
     FileFormat(const char* path);
