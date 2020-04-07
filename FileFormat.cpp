@@ -34,20 +34,20 @@ FileFormat::FileFormat(const char* path):_path(path)
     fs.offset(hashPos);
     for (size_t i = 0; i < hashCount; i++)
     {
-        unsigned int hashCode;
-        if (!fs.readUInt32(&hashCode) || hashCode <= 0)
+        size_t hashCode;
+        if (!fs.readUInt64(&hashCode) || hashCode <= 0)
             throw "hash code failed";
-        hashTable.insert(std::pair<unsigned int, unsigned int>(hashCode, i));
+        hashTable.insert(std::pair<size_t, size_t>(hashCode, i));
     }
 
     fs.offset(blockPos);
     for (size_t i = 0; i < blockCount; i++)
     {
-        unsigned int blockPos;
-        unsigned int blockLen;
-        if (!fs.readUInt32(&blockPos) || blockPos <= 0)
+        size_t blockPos;
+        size_t blockLen;
+        if (!fs.readUInt64(&blockPos) || blockPos <= 0)
             throw "block pos failed";
-        if (!fs.readUInt32(&blockLen) || blockLen <= 0)
+        if (!fs.readUInt64(&blockLen) || blockLen <= 0)
             throw "block len failed";
         blockInfo* blkInfo = (blockInfo*)malloc(sizeof(blockInfo));
         if (blkInfo != nullptr)
@@ -70,7 +70,7 @@ const char* FileFormat::origin()
 
 bool FileFormat::match(const char* path)
 {
-    unsigned int hashValue = Hash(path);
+    size_t hashValue = Hash(path, strlen(path));
     if (hashTable.find(hashValue) != hashTable.end())
         return true;
     return false;
@@ -78,7 +78,7 @@ bool FileFormat::match(const char* path)
 
 bool FileFormat::read(const char* path, Buffer& buf)
 {
-    unsigned int hashValue = Hash(path);
+    size_t hashValue = Hash(path, strlen(path));
     if (hashTable.find(hashValue) != hashTable.end())
     {
         blockInfo* blkInf = blockTable[hashTable[hashValue]];
@@ -95,7 +95,7 @@ bool FileFormat::read(const char* path, Buffer& buf)
 
 int FileFormat::size(const char* path)
 {
-    unsigned int hashValue = Hash(path);
+    size_t hashValue = Hash(path, strlen(path));
     if (hashTable.find(hashValue) != hashTable.end())
     {
         blockInfo* blkInf = blockTable[hashTable[hashValue]];
