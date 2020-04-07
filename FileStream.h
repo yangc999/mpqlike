@@ -24,7 +24,7 @@ public:
     bool readUInt32(unsigned int* dst);
     bool readInt64(long* dst);
     bool readUInt64(unsigned long* dst);
-    bool readStr(char* dst, int length);
+    bool readStr(unsigned char* dst, int length);
     bool offset(int off);
 };
 

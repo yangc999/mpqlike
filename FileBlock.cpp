@@ -21,6 +21,19 @@ FileBlock::~FileBlock()
 
 bool FileBlock::decode(Buffer& buf)
 {
+    switch (flInf.encTp)
+    {
+    case FLAT:
+        buf.resign(content, flInf.size);
+        break;
+
+    case ZIP:
+
+        break;
+
+    default:
+        break;
+    }
     return true;
 }
 

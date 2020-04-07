@@ -16,8 +16,8 @@ public:
     Buffer(size_t size = 4);
     ~Buffer();
     size_t size();
-    char* data();
-    bool resign(const char* src, size_t size);
+    unsigned char* data();
+    bool resign(const unsigned char* src, size_t size);
 };
 
 }

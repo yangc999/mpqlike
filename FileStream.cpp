@@ -3,7 +3,7 @@
 
 using namespace pkg;
 
-FileStream::FileStream(const char* path):_path(std::string(path))
+FileStream::FileStream(const char* path):_path(path)
 {
     _in.open(path, std::ios::in | std::ios::binary);
 }
@@ -77,11 +77,11 @@ bool FileStream::readUInt64(unsigned long* dst)
     return true;
 }
 
-bool FileStream::readStr(char* dst, int length)
+bool FileStream::readStr(unsigned char* dst, int length)
 {
     if (!_in.is_open())
         return false;
-    _in.read(dst, length);
+    _in.read((char*)dst, length);
     return true;
 }
 

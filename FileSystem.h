@@ -13,8 +13,8 @@ class FileSystem
 {
 private:
     __gnu_cxx::hash_map<const char*, FileFormat*> pkgMap;
-public:
     FileSystem();
+public:
     ~FileSystem();
     static FileSystem* getInstance();
     bool loadPackage(const char* path);

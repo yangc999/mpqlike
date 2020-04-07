@@ -15,9 +15,9 @@ Buffer::~Buffer()
         free(_data);
 }
 
-char* Buffer::data()
+unsigned char* Buffer::data()
 {
-    return (char*)_data;
+    return _data;
 }
 
 size_t Buffer::size()
@@ -25,7 +25,7 @@ size_t Buffer::size()
     return _size;
 }
 
-bool Buffer::resign(const char* src, size_t size)
+bool Buffer::resign(const unsigned char* src, size_t size)
 {
     if (_data != nullptr)
     {

@@ -5,7 +5,7 @@
 
 using namespace pkg;
 
-FileFormat::FileFormat(const char* path):_path(std::string(path)) 
+FileFormat::FileFormat(const char* path):_path(path) 
 {
     FileStream fs(_path.c_str);
     unsigned int hashPos;
@@ -14,7 +14,7 @@ FileFormat::FileFormat(const char* path):_path(std::string(path))
     unsigned int blockCount;
     char header[3];
 
-    if (!fs.readStr(header, sizeof(header)) || strcmp(header, "PKG") != 0)
+    if (!fs.readStr((unsigned char*)header, sizeof(header)) || strcmp(header, "PKG") != 0)
         throw "header failed";
 
     if (!fs.readUInt32(&hashPos) || hashPos <= 0)
@@ -49,8 +49,7 @@ FileFormat::FileFormat(const char* path):_path(std::string(path))
             throw "block len failed";
         blockInfo* blkInfo = (blockInfo*)malloc(sizeof(blockInfo));
         blockTable.push_back(blkInfo);  
-    }
-    
+    }    
 }
 
 FileFormat::~FileFormat()
@@ -93,7 +92,7 @@ bool FileFormat::read(const char* path, Buffer& buf)
 
 int FileFormat::size(const char* path)
 {
-    int hashValue = (int)path;
+    unsigned int hashValue = Hash(path);
     if (hashTable.find(hashValue) != hashTable.end())
     {
         blockInfo* blkInf = blockTable[hashTable[hashValue]];
