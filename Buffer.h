@@ -1,3 +1,5 @@
+#ifndef __BUFFER_H__
+#define __BUFFER_H__
 
 #include <cstdlib>
 #include <cstring>
@@ -8,14 +10,16 @@ namespace pkg
 class Buffer
 {
 private:
-    char* _data;
-    int _size;
+    unsigned char* _data;
+    size_t _size;
 public:
-    Buffer(int size = 4);
+    Buffer(size_t size = 4);
     ~Buffer();
-    int size();
+    size_t size();
     char* data();
-    bool resize(int size);
+    bool resign(const char* src, size_t size);
 };
 
 }
+
+#endif

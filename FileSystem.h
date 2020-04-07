@@ -1,7 +1,10 @@
+#ifndef __FILE_SYSTEM_H__
+#define __FILE_SYSTEM_H__
 
-#include "FileFormat.h"
 #include <vector>
 #include <hash_map>
+#include "FileFormat.h"
+#include "Buffer.h"
 
 namespace pkg
 {
@@ -17,8 +20,10 @@ public:
     bool loadPackage(const char* path);
     bool unloadPackage(const char* path);
     bool fileExist(const char* path);
-    char* fileContent(const char* path);
+    bool fileContent(const char* path, Buffer& buf);
     int fileSize(const char* path);
 };
 
 }
+
+#endif

@@ -26,13 +26,13 @@ FileSystem* FileSystem::getInstance()
 
 bool FileSystem::loadPackage(const char* path)
 {
-    for (auto it : pkgMap)
+    for (auto it = pkgMap.begin(); it != pkgMap.end(); it++)
     {
-        if (it.second->match(path))
+        if (it->second->match(path))
             return true;
     }
-    FileFormat *format = new FileFormat(path);
-    if (format->valid())
+    FileFormat* format = new (std::nothrow) FileFormat(path);
+    if (format != nullptr)
     {
         pkgMap.insert(std::pair<const char*, FileFormat*>(format->origin(), format));
         return true;
@@ -42,31 +42,36 @@ bool FileSystem::loadPackage(const char* path)
 
 bool FileSystem::unloadPackage(const char* path)
 {
-    for (auto it : pkgMap)
+    for (auto it = pkgMap.begin(); it != pkgMap.end(); it++)
     {
-        if (it.second->match(path))
+        if (it->second->match(path))
+        {
+            delete it->second;
+            pkgMap.erase(it);
             return true;
+        }
     }
+    return false;
 }
 
 bool FileSystem::fileExist(const char* path)
 {
-    for (auto it : pkgMap)
+    for (auto it = pkgMap.begin(); it != pkgMap.end(); it++)
     {
-        if (it.second->match(path))
+        if (it->second->match(path))
             return true;
     }
     return false;
 }
 
-char* FileSystem::fileContent(const char* path)
+bool FileSystem::fileContent(const char* path, Buffer& buf)
 {
-    for (auto it : pkgMap)
+    for (auto it = pkgMap.begin(); it != pkgMap.end(); it++)
     {
-        if (it.second->match(path))
-            return it.second->read(path);
+        if (it->second->match(path))
+            return it->second->read(path, buf);
     }
-    return nullptr;
+    return false;
 }
 
 int FileSystem::fileSize(const char* path)

@@ -1,3 +1,5 @@
+#ifndef __FILE_STREAM_H__
+#define __FILE_STREAM_H__
 
 #include <fstream>
 #include <iostream>
@@ -14,15 +16,18 @@ private:
 public:
     FileStream(const char* path);
     ~FileStream();
-    bool readInt8(char* dst, int begin);
-    bool readUInt8(unsigned char* dst, int begin);
-    bool readInt16(short* dst, int begin);
-    bool readUInt16(unsigned short* dst, int begin);
-    bool readInt32(int* dst, int begin);
-    bool readUInt32(unsigned int* dst, int begin);
-    bool readInt64(long* dst, int begin);
-    bool readUInt64(unsigned long* dst, int begin);
-    bool readStr(char* dst, int begin, int end);
+    bool readInt8(char* dst);
+    bool readUInt8(unsigned char* dst);
+    bool readInt16(short* dst);
+    bool readUInt16(unsigned short* dst);
+    bool readInt32(int* dst);
+    bool readUInt32(unsigned int* dst);
+    bool readInt64(long* dst);
+    bool readUInt64(unsigned long* dst);
+    bool readStr(char* dst, int length);
+    bool offset(int off);
 };
 
 }
+
+#endif

@@ -3,31 +3,34 @@
 
 using namespace pkg;
 
-Buffer::Buffer(int size = 4)
+Buffer::Buffer(size_t size = 4)
 {
-    _data = (char*)malloc(size);
+    _data = (unsigned char*)malloc(size);
     _size = size;
 }
 
 Buffer::~Buffer()
 {
     if (_data != nullptr)
-    {
         free(_data);
-    }
 }
 
 char* Buffer::data()
 {
-    return _data;
+    return (char*)_data;
 }
 
-int Buffer::size()
+size_t Buffer::size()
 {
     return _size;
 }
 
-bool Buffer::resize(int size)
+bool Buffer::resign(const char* src, size_t size)
 {
-
+    if (_data != nullptr)
+    {
+        _data = (unsigned char*)realloc(_data, size);
+        if (src != nullptr)
+            memcpy(_data, src, size);
+    }
 }
