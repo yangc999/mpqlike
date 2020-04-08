@@ -15,7 +15,7 @@ enum EncodeType
 typedef struct fileInfo
 {
     EncodeType encTp;
-    int size;
+    size_t size;
 } fileInfo;
 
 class FileBlock

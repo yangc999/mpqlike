@@ -10,29 +10,25 @@ using namespace pkg;
 FileFormat::FileFormat(const char* path):_path(path) 
 {
     FileStream fs(_path.c_str);
-    unsigned int hashPos;
-    unsigned int hashCount;
-    unsigned int blockPos;
-    unsigned int blockCount;
+    unsigned int fileCount;
+    size_t hashPos;
+    size_t blockPos;
     char header[3];
 
     if (!fs.readStr((unsigned char*)header, sizeof(header)) || strcmp(header, "PKG") != 0)
         throw "header failed";
 
-    if (!fs.readUInt32(&hashPos) || hashPos <= 0)
+    if (!fs.readUInt32(&fileCount) || fileCount <= 0)
+        throw "file count failed";
+
+    if (!fs.readUInt64(&hashPos) || hashPos <= 0)
         throw "hash pos failed";
 
-    if (!fs.readUInt32(&hashCount) || hashCount <= 0)
-        throw "hash count failed";
-
-    if (!fs.readUInt32(&blockPos) || blockPos <= 0)
+    if (!fs.readUInt64(&blockPos) || blockPos <= 0)
         throw "block pos failed";
 
-    if (!fs.readUInt32(&blockCount) || blockCount <= 0)
-        throw "block count failed";
-
     fs.offset(hashPos);
-    for (size_t i = 0; i < hashCount; i++)
+    for (size_t i = 0; i < fileCount; i++)
     {
         size_t hashCode;
         if (!fs.readUInt64(&hashCode) || hashCode <= 0)
@@ -41,7 +37,7 @@ FileFormat::FileFormat(const char* path):_path(path)
     }
 
     fs.offset(blockPos);
-    for (size_t i = 0; i < blockCount; i++)
+    for (size_t i = 0; i < fileCount; i++)
     {
         size_t blockPos;
         size_t blockLen;
