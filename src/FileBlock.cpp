@@ -8,12 +8,16 @@ using namespace pkg;
 
 FileBlock::FileBlock(Buffer& buf)
 {
-    memcpy(&flInf.encTp, buf.data(), sizeof(int));
-    memcpy(&flInf.size, buf.data()+sizeof(int), sizeof(int));
-    _size = buf.size()-2*sizeof(int);
+    unsigned char tp;
+    unsigned int size;
+    memcpy(&tp, buf.data(), sizeof(char));
+    memcpy(&size, buf.data()+sizeof(char), sizeof(int));
+    flInf.encTp = (EncodeType)tp;
+    flInf.size = size;
+    _size = buf.size()-sizeof(char)-sizeof(int);
     _content = (unsigned char*)malloc(_size);
     if (_content != nullptr)
-        memcpy(_content, buf.data()+2*sizeof(int), _size);
+        memcpy(_content, buf.data()+sizeof(char)+sizeof(int), _size);
 }
 
 FileBlock::~FileBlock()

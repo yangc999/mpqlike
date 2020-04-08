@@ -11,8 +11,8 @@ FileFormat::FileFormat(const char* path):_path(path)
 {
     FileStream fs(_path.c_str);
     unsigned int fileCount;
-    size_t hashPos;
-    size_t blockPos;
+    unsigned hashPos;
+    unsigned blockPos;
     char header[3];
 
     if (!fs.readStr((unsigned char*)header, sizeof(header)) || strcmp(header, "PKG") != 0)
@@ -21,33 +21,37 @@ FileFormat::FileFormat(const char* path):_path(path)
     if (!fs.readUInt32(&fileCount) || fileCount <= 0)
         throw "file count failed";
 
-    if (!fs.readUInt64(&hashPos) || hashPos <= 0)
+    if (!fs.readUInt32(&hashPos) || hashPos <= 0)
         throw "hash pos failed";
 
-    if (!fs.readUInt64(&blockPos) || blockPos <= 0)
+    if (!fs.readUInt32(&blockPos) || blockPos <= 0)
         throw "block pos failed";
 
     fs.offset(hashPos);
     for (size_t i = 0; i < fileCount; i++)
     {
-        size_t hashCode;
-        if (!fs.readUInt64(&hashCode) || hashCode <= 0)
+        unsigned int hashCode;
+        if (!fs.readUInt32(&hashCode) || hashCode <= 0)
             throw "hash code failed";
-        hashTable.insert(std::pair<size_t, size_t>(hashCode, i));
+        hashTable.insert(std::pair<unsigned int, unsigned int>(hashCode, i));
     }
 
     fs.offset(blockPos);
     for (size_t i = 0; i < fileCount; i++)
     {
-        size_t blockPos;
-        size_t blockLen;
-        if (!fs.readUInt64(&blockPos) || blockPos <= 0)
+        unsigned int blockPos;
+        unsigned int blockLen;
+        if (!fs.readUInt32(&blockPos) || blockPos <= 0)
             throw "block pos failed";
-        if (!fs.readUInt64(&blockLen) || blockLen <= 0)
+        if (!fs.readUInt32(&blockLen) || blockLen <= 0)
             throw "block len failed";
         blockInfo* blkInfo = (blockInfo*)malloc(sizeof(blockInfo));
         if (blkInfo != nullptr)
-            blockTable.push_back(blkInfo);  
+        {
+            blkInfo->blockBegin = blockPos;
+            blkInfo->blockLength = blockLen;
+            blockTable.push_back(blkInfo);
+        }
     }    
 }
 
@@ -66,7 +70,7 @@ const char* FileFormat::origin()
 
 bool FileFormat::match(const char* path)
 {
-    size_t hashValue = Hash(path, strlen(path));
+    unsigned int hashValue = Hash(path, strlen(path));
     if (hashTable.find(hashValue) != hashTable.end())
         return true;
     return false;
@@ -74,7 +78,7 @@ bool FileFormat::match(const char* path)
 
 bool FileFormat::read(const char* path, Buffer& buf)
 {
-    size_t hashValue = Hash(path, strlen(path));
+    unsigned int hashValue = Hash(path, strlen(path));
     if (hashTable.find(hashValue) != hashTable.end())
     {
         blockInfo* blkInf = blockTable[hashTable[hashValue]];
@@ -91,7 +95,7 @@ bool FileFormat::read(const char* path, Buffer& buf)
 
 int FileFormat::size(const char* path)
 {
-    size_t hashValue = Hash(path, strlen(path));
+    unsigned int hashValue = Hash(path, strlen(path));
     if (hashTable.find(hashValue) != hashTable.end())
     {
         blockInfo* blkInf = blockTable[hashTable[hashValue]];

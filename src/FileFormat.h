@@ -20,7 +20,7 @@ class FileFormat
 {
 private:
     std::string _path;
-    std::map<size_t, size_t> hashTable;
+    std::map<unsigned int, size_t> hashTable;
     std::vector<blockInfo*> blockTable;
 public:
     FileFormat(const char* path);
