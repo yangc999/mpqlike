@@ -13,7 +13,7 @@ FileFormat::FileFormat(const char* path):_path(path)
     unsigned int fileCount;
     unsigned hashPos;
     unsigned blockPos;
-    char header[3];
+    char header[4] = {0};
 
     if (!fs.readStr((unsigned char*)header, sizeof(header)) || strcmp(header, "PKG") != 0)
         throw "header failed";
