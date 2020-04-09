@@ -67,7 +67,7 @@ if __name__ == "__main__":
         print(files)
         count = len(files)
         # calculate hash for each related path
-        relatedPaths = [(path.replace(root, "")) for path in files]
+        relatedPaths = [(path.replace(root + "/", "")) for path in files]
         print("related path:")
         print(relatedPaths)
         hashs = [(xxhash.xxh32(path, seed=0).intdigest()) for path in relatedPaths]
