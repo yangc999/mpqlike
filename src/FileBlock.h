@@ -28,7 +28,7 @@ public:
     FileBlock(Buffer& buf);
     ~FileBlock();
     bool decode(Buffer& buf);
-    int size();
+    size_t size();
 };
 
 }

@@ -29,7 +29,7 @@ public:
     const char* origin();
     bool match(const char* path);
     bool read(const char* path, Buffer& buf);
-    int size(const char* path);
+    size_t size(const char* path);
 };
 
 }

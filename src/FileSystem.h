@@ -21,7 +21,7 @@ public:
     bool unloadPackage(const char* path);
     bool fileExist(const char* path);
     bool fileContent(const char* path, Buffer& buf);
-    int fileSize(const char* path);
+    size_t fileSize(const char* path);
 };
 
 }

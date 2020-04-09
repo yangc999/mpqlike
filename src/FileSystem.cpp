@@ -70,7 +70,7 @@ bool FileSystem::fileContent(const char* path, Buffer& buf)
     return false;
 }
 
-int FileSystem::fileSize(const char* path)
+size_t FileSystem::fileSize(const char* path)
 {
     for (auto it = pkgMap.begin(); it != pkgMap.end(); it++)
     {

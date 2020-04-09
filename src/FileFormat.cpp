@@ -9,7 +9,7 @@ using namespace pkg;
 
 FileFormat::FileFormat(const char* path):_path(path) 
 {
-    FileStream fs(_path.c_str);
+    FileStream fs(_path.c_str());
     unsigned int fileCount;
     unsigned hashPos;
     unsigned blockPos;
@@ -39,20 +39,20 @@ FileFormat::FileFormat(const char* path):_path(path)
     fs.offset(blockPos);
     for (size_t i = 0; i < fileCount; i++)
     {
-        unsigned int blockPos;
+        unsigned int blockBegin;
         unsigned int blockLen;
-        if (!fs.readUInt32(&blockPos) || blockPos <= 0)
+        if (!fs.readUInt32(&blockBegin) || blockBegin <= 0)
             throw "block pos failed";
         if (!fs.readUInt32(&blockLen) || blockLen <= 0)
             throw "block len failed";
         blockInfo* blkInfo = (blockInfo*)malloc(sizeof(blockInfo));
         if (blkInfo != nullptr)
         {
-            blkInfo->blockBegin = blockPos;
+            blkInfo->blockBegin = blockBegin;
             blkInfo->blockLength = blockLen;
             blockTable.push_back(blkInfo);
         }
-    }    
+    }
 }
 
 FileFormat::~FileFormat()
@@ -82,7 +82,7 @@ bool FileFormat::read(const char* path, Buffer& buf)
     if (hashTable.find(hashValue) != hashTable.end())
     {
         blockInfo* blkInf = blockTable[hashTable[hashValue]];
-        FileStream fs(_path.c_str);
+        FileStream fs(_path.c_str());
         Buffer bf;
         bf.resign(nullptr, blkInf->blockLength);
         fs.offset(blkInf->blockBegin);
@@ -93,13 +93,13 @@ bool FileFormat::read(const char* path, Buffer& buf)
     return true;
 }
 
-int FileFormat::size(const char* path)
+size_t FileFormat::size(const char* path)
 {
     unsigned int hashValue = Hash(path, strlen(path));
     if (hashTable.find(hashValue) != hashTable.end())
     {
         blockInfo* blkInf = blockTable[hashTable[hashValue]];
-        FileStream fs(_path.c_str);
+        FileStream fs(_path.c_str());
         Buffer bf;
         bf.resign(nullptr, blkInf->blockLength);
         fs.offset(blkInf->blockBegin);

@@ -48,14 +48,11 @@ bool FileBlock::decode(Buffer& buf)
         }
         return false;
         break;
-
-    default:
-        break;
     }
     return false;
 }
 
-int FileBlock::size()
+size_t FileBlock::size()
 {
     return flInf.size;
 }
