@@ -5,7 +5,7 @@
 
 using namespace pkg;
 
-Buffer::Buffer(size_t size = 4)
+Buffer::Buffer(size_t size)
 {
     _data = (unsigned char*)malloc(size);
     if (_data != nullptr)
@@ -33,9 +33,11 @@ bool Buffer::resign(const unsigned char* src, size_t size)
     if (_data != nullptr)
     {
         _data = (unsigned char*)realloc(_data, size);
-        if (_data != nullptr && src != nullptr)
+        if (_data != nullptr)
         {
-            memcpy(_data, src, size);
+            _size = size;
+            if (src != nullptr)
+                memcpy(_data, src, size);
             return true;
         }
     }

@@ -13,9 +13,9 @@ FileFormat::FileFormat(const char* path):_path(path)
     unsigned int fileCount;
     unsigned hashPos;
     unsigned blockPos;
-    char header[4] = {0};
+    char header[3] = {0};
 
-    if (!fs.readStr((unsigned char*)header, sizeof(header)-1) || strcmp(header, "PKG") != 0)
+    if (!fs.readStr((unsigned char*)header, sizeof(header)) || strncmp(header, "PKG", 3) != 0)
         throw "header failed";
 
     if (!fs.readUInt32(&fileCount) || fileCount <= 0)
