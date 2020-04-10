@@ -1,7 +1,6 @@
 #ifndef __PKG_FILE_SYSTEM_H__
 #define __PKG_FILE_SYSTEM_H__
 
-#include <vector>
 #include <unordered_map>
 #include "FileFormat.h"
 #include "Buffer.h"
