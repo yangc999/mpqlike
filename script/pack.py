@@ -13,7 +13,7 @@ import sys
 
 def savePath(path):
     if os.path.isfile(path):
-        return os.path.dir(os.path.abspath(path)) + "pkg.bin"
+        return os.path.abspath(os.path.dir(path)) + "/pkg.bin"
     elif os.path.isdir(path):
         return os.path.abspath(path) + ".bin"
 
