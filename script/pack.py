@@ -1,3 +1,4 @@
+#! /usr/bin/python
 
 import xxhash
 import zlib
