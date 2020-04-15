@@ -11,6 +11,12 @@ import sys
 [HEADER**COUNT,HASH_OFFSET,BLOCK_OFFSET**HASH..HASH**BLOCK..BLOCK**FILE..FILE**HEADER]
 '''
 
+def savePath(path):
+    if os.path.isfile(path):
+        return os.path.dir(os.path.abspath(path)) + "pkg.bin"
+    elif os.path.isdir(path):
+        return os.path.abspath(path) + ".bin"
+
 def baseDir(path):
     if os.path.isfile(path):
         return os.path.dir(path)
@@ -75,7 +81,7 @@ if __name__ == "__main__":
         print("hashs:")
         print(hashs)
         # gen file
-        binPath = os.getcwd() + "/data.pkg"
+        binPath = savePath(path)
         if os.path.exists(binPath):
             os.remove(binPath)
         binFile = open(binPath, "wb+")
