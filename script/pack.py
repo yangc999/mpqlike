@@ -81,7 +81,7 @@ if __name__ == "__main__":
         print("hashs:")
         print(hashs)
         # gen file
-        binPath = savePath(path)
+        binPath = savePath(realPath)
         if os.path.exists(binPath):
             os.remove(binPath)
         binFile = open(binPath, "wb+")
